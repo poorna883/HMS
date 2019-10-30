@@ -11,7 +11,8 @@ var express 			= require('express'),
 	methodOverride  	= require('method-override'),
 	User 				= require('./public/schema/userschema'),
 	Doc					= require('./public/schema/docschema'),
-	Medicine            = require('./public/schema/medschema');
+	Medicine            = require('./public/schema/medschema'),
+	Diag                = require('./public/schema/diagschema');
 
 //APP CONFIG
 mongoose.connect("mongodb://localhost/hms");
@@ -442,16 +443,345 @@ app.delete("/docs/:id",function(req,res){
 });
 
 app.get("/docs/:id/addp",function(req,res){
-		Doc.findById(req.params.id,function(err,foundDoc){
+		
+	Doc.findById(req.params.id,function(err,foundDoc){
 		if(err){
 			res.redirect("/docs");
 		}else {
-			res.render("addpatient",{Doc:foundDoc});
+			User.find({}, function(err, allUsers){
+         	if(err){
+             		console.log(err);
+         	} else {
+              	res.render("addpatient",{Doc:foundDoc,users:allUsers});
+            }
+      		});
+		}
+		
+	});
+});
+
+
+app.post("/docs/:id1/:id2",function(req,res){
+		User.findById(req.params.id1,function(err,user){
+		if(err){
+			console.log(err);
+			res.redirect("/docs");
+		}else{
+		
+			Doc.findById(req.params.id2,function(err,foundDoc){
+				if(err){
+					res.redirect("/docs");
+				}else {
+					console.log("posted!!");
+					console.log(user);
+					console.log(foundDoc);
+					foundDoc.users.push(user);
+					foundDoc.save();
+					user.docs.push(foundDoc);
+					user.save();
+					res.redirect("/docs/"+req.params.id2);
+				}
+			});
+		}
+	});
+});
+
+app.get("/docs/:id/p",function(req,res){
+	Doc.findById(req.params.id).populate("users").exec(function(err,doc){
+		if(err){
+			console.log(err);
+			res.redirect("/docs");
+		}else{
+			res.render("docshowpat",{Doc : doc});
+		}
+	});
+});
+
+app.delete("/docs/:id1/:id2/p",function(req,res){
+		Doc.findById(req.params.id2,function(err,Doc){
+		
+		if(err){
+			console.log(err);
+			res.redirect("/docs");
+		}else{
+			User.findById(req.params.id1,function(err,foundUser){
+				if(err){
+					res.redirect("/docs");
+				}else {
+					console.log("posted!!");
+					console.log(foundUser);
+					Doc.users.pull(foundUser);
+					Doc.save();
+					foundUser.docs.pull(Doc);
+					foundUser.save();
+					res.redirect("/docs/"+req.params.id2+"/p");
+				}
+			});
+		}
+	});
+	
+});
+
+//showing doctors of patient
+app.get("/users/docs",function(req,res){
+		User.findById(req.user._id).populate("docs").exec(function(err,user){
+		if(err){
+			console.log(err);
+			res.redirect("/landing/user");
+		}else{
+			res.render("userdoc",{user : user});
+		}
+	});
+});
+
+app.delete("/users/:id/docs",function(req,res){
+	User.findById(req.user._id,function(err,user){
+		if(err){
+			console.log(err);
+			res.redirect("/landing/user");
+		}else{
+		
+			Doc.findById(req.params.id,function(err,foundDoc){
+				if(err){
+					res.redirect("/landing/user");
+				}else {
+					console.log("posted!!");
+					console.log(user);
+					console.log(foundDoc);
+					user.docs.pull(foundDoc);
+					user.save();
+					foundDoc.users.pull(user);
+					foundDoc.save();
+					res.redirect("/users/docs");
+				}
+			});
+		}
+	});
+});
+
+app.get("/users/:id",function(req,res){
+		Doc.findById(req.params.id, function(err,foundDoc){
+		if(err){
+			res.redirect("/landing/user");
+		}
+		else{
+			res.render("userdocshow",{Doc:foundDoc});
+		}
+	});
+});
+
+//diagnosis reports
+app.get("/diags/new",function(req,res){
+	res.render("newdiag");
+});
+app.get("/diags",function(req,res){
+	Diag.find({}, function(err, allDiags){
+         if(err){
+             console.log(err);
+         } else {
+              res.render("diaglist",{Diags: allDiags});
+            }
+      });
+});
+
+
+//CREATE ROUTE Doctor
+app.post("/diags",function(req,res){ 
+	//create doctors
+	req.body.Diag.body = req.sanitize(req.body.Diag.body);
+	Diag.create(req.body.Diag,function(err,newDiag){
+		 if(err){
+			 res.render("newdiag");
+		 }
+		else{
+			//then, redirect to index
+			res.redirect("/diags");
+		}
+	});
+});
+
+//SHOW ROUTE
+app.get("/diags/:id",function(req,res){
+	Diag.findById(req.params.id, function(err,foundDiag){
+		if(err){
+			res.redirect("/diags");
+		}
+		else{
+			res.render("diagshow",{Diag:foundDiag});
+		}
+	});
+	
+});
+
+
+//EDIT ROUTE
+app.get("/diags/:id/edit",function(req,res){
+	
+	Diag.findById(req.params.id,function(err,foundDiag){
+		if(err){
+			res.redirect("/diags");
+		}else {
+			res.render("editdiags",{Diag:foundDiag});
 		}
 		
 	})
+	
 });
 
+//UPDATE ROUTE Medicine
+app.put("/diags/:id",function(req,res){
+	req.body.Diag.body = req.sanitize(req.body.Diag.body);
+	Diag.findByIdAndUpdate(req.params.id,req.body.Diag,function(err,updatedDiag){
+		if(err){
+			res.redirect("/diags");
+		}else{
+			res.redirect("/diags");
+		}
+	})
+});
+
+//Delete route Medicine
+app.delete("/diags/:id",function(req,res){
+	//destroy 
+	Diag.findByIdAndRemove(req.params.id,function(err){
+		if(err){
+			res.redirect("/diags");
+		}else {
+			//redirect somewhere
+			res.redirect("/diags");
+		}
+	})
+	
+});
+
+//adding/deleting patients to diagnosis
+app.get("/diags/:id/addp",function(req,res){
+		
+	Diag.findById(req.params.id,function(err,foundDiag){
+		if(err){
+			res.redirect("/diags");
+		}else {
+			User.find({}, function(err, allUsers){
+         	if(err){
+             		console.log(err);
+         	} else {
+              	res.render("addpatdiag",{Diag:foundDiag,users:allUsers});
+            }
+      		});
+		}
+		
+	});
+});
+
+
+app.post("/diags/:id1/:id2",function(req,res){
+		User.findById(req.params.id1,function(err,user){
+		if(err){
+			console.log(err);
+			res.redirect("/diags");
+		}else{
+		
+			Diag.findById(req.params.id2,function(err,foundDiag){
+				if(err){
+					res.redirect("/diags");
+				}else {
+					console.log("posted!!");
+					console.log(user);
+					console.log(foundDiag);
+					foundDiag.users.push(user);
+					foundDiag.save();
+					user.docs.push(foundDiag);
+					user.save();
+					res.redirect("/diags/"+req.params.id2);
+				}
+			});
+		}
+	});
+});
+
+app.get("/diags/:id/p",function(req,res){
+	Diag.findById(req.params.id).populate("users").exec(function(err,diag){
+		if(err){
+			console.log(err);
+			res.redirect("/diags");
+		}else{
+			res.render("diagshowpat",{Diag : diag});
+		}
+	});
+});
+
+app.delete("/diags/:id1/:id2/p",function(req,res){
+		Diag.findById(req.params.id2,function(err,Diag){
+		
+		if(err){
+			console.log(err);
+			res.redirect("/diags");
+		}else{
+			User.findById(req.params.id1,function(err,foundUser){
+				if(err){
+					res.redirect("/diags");
+				}else {
+					console.log("posted!!");
+					console.log(foundUser);
+					Diag.users.pull(foundUser);
+					Diag.save();
+					foundUser.docs.pull(Diag);
+					foundUser.save();
+					res.redirect("/diags/"+req.params.id2+"/p");
+				}
+			});
+		}
+	});
+	
+});
+
+//showing doctors of patient
+app.get("/users/diags",function(req,res){
+		User.findById(req.user._id).populate("diags").exec(function(err,user){
+		if(err){
+			console.log(err);
+			res.redirect("/landing/user");
+		}else{
+			res.render("userdiag",{user : user});
+		}
+	});
+});
+
+app.delete("/users/:id/docs",function(req,res){
+	User.findById(req.user._id,function(err,user){
+		if(err){
+			console.log(err);
+			res.redirect("/landing/user");
+		}else{
+		
+			Doc.findById(req.params.id,function(err,foundDoc){
+				if(err){
+					res.redirect("/landing/user");
+				}else {
+					console.log("posted!!");
+					console.log(user);
+					console.log(foundDoc);
+					user.docs.pull(foundDoc);
+					user.save();
+					foundDoc.users.pull(user);
+					foundDoc.save();
+					res.redirect("/users/docs");
+				}
+			});
+		}
+	});
+});
+
+app.get("/users/:id",function(req,res){
+		Doc.findById(req.params.id, function(err,foundDoc){
+		if(err){
+			res.redirect("/landing/user");
+		}
+		else{
+			res.render("userdocshow",{Doc:foundDoc});
+		}
+	});
+});
 
 
 

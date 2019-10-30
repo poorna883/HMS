@@ -1,0 +1,36 @@
+<% include partials/header%>
+<div class="ui inverted container">
+	
+<div class="ui form" style="margin-top:80px;">
+	<h4 class="ui center aligned dividing huge header">Edit <%= Diag.name %> Report</h4>
+<div class="field">
+
+<div style="width:30% ;margin:25px auto">
+<form action="/diags/<%= Diag._id %>?_method=PUT" method="POST">
+	<div class="field"><input  type="text"
+name="Diag[name]" id="name" placeholder="Name" value="<%= Diag.name %>"required>
+		</div>
+
+ <div class="field">
+    <input type="text" name="Diag[date]"  value="<%= Diag.date %>" id="date" placeholder="Date" required>
+ </div>
+	<div class="field">
+    <input type="text" name="Diag[details]" value="<%= Diag.details %>" id="details" placeholder="Details" required>
+ </div>
+ <div class="field">
+    <input type="text" name="Diag[remark]"  value="<%= Diag.remark %>" id="rem" placeholder="Remark" required>
+
+	 <div class="field">
+			 <label>Other Details</label>
+			 <textarea name="Diag[other]"><%= Diag.other %></textarea>
+	</div>
+	<div class="ui center aligned container">
+		<div class="field"><button class="ui green basic button ">Update</button></div> </div>
+	</div>
+	
+</form>
+	</div>
+	</div>
+	</div>
+</div>
+<% include partials/footer%>

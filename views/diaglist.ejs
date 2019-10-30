@@ -1,0 +1,53 @@
+<% include partials/header %>
+
+
+<div class="ui container" style= "margin-top:6em">
+	<div class="text-center">
+   <div class="page-header">
+    <h1>Diagnosis Reports</h1>
+  </div>
+   </div>
+
+	
+	
+<table class="ui red celled table">
+  <thead >
+      	<tr>
+          <th >Diagnosis Name</th>
+          <th>Date</th>
+          <th>Remark</th>
+        	<th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+      	<%  Diags.forEach(function(Diag){ %>
+          
+        </tr>
+        <tr>
+        <td><%=Diag.name %></td>
+        <td><%=Diag.date %></td>
+		<td><%=Diag.remark %></td>
+        <td class = "center aligned">
+			<a class="ui basic orange button"href="/diags/<%= Diag._id %>">Show</a></td>
+     	 <% }) %>    
+      
+       
+	</tr>
+   </tbody>
+   </table>
+
+	<div class="ui center aligned container">
+		<button class="ui teal basic button"><a href="/adminlanding">Back</a></button>
+   		<button class="ui olive basic button"><a href="/diags/new">Add</a></button>
+
+	</div>
+  
+  
+
+   
+
+
+</div>
+
+<% include partials/footer %>

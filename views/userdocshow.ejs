@@ -30,17 +30,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="ui center aligned container">
-		<form id="delete" action="/docs/<%= Doc._id %>?_method=DELETE"method="POST">
-				<a class="ui basic orange button" href="/docs/<%= Doc._id %>/edit">Edit</a>
-				<button class="ui red basic button">
-					Delete
-				</button>
-		</form>
-	</div>
-	<a class="ui basic teal button" href="/docs">Back</a>
-	<a class="ui basic orange button" href="/docs/<%= Doc._id %>/addp">Add Patients</a>
-	<a class="ui basic teal button" href="/docs/<%= Doc._id %>/p">Consulting Patients</a>
+	<a class="ui basic teal button" href="/users/docs">Back</a>
 </div>
 
 <% include ./partials/footer %>

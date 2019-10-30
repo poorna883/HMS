@@ -1,11 +1,11 @@
 <% include partials/header %>
-      
+
 
 
 <div class="ui container" style="margin-top: 6em">
 	<div class="text-center">
 	  <div class="page-header">
-    <h1>User Details</h1>
+    <h1>All patients</h1>
   </div>
 	 </div>
 
@@ -15,30 +15,27 @@
 <table class="ui blue celled table">
   <thead>
       	<tr>
-          <th>Username    </th>
           <th>Name  </th>
           <th>Age</th>
           <th>Gender</th>
           <th>Phone No.</th>
-          <th>Address</th>
+		<th></th>
         </tr>
       </thead>
       <tbody>
         <tr>
-      	<%  user.forEach(function(User){ %>
+      	<%  users.forEach(function(User){ %>
           
         </tr>
         <tr>
-        <td><%= User.username %></td>
         <td><%=User.name %></td>
         <td><%=User.age %></td>
         <td><%=User.gender %></td>
         <td><%=User.phone %></td>
-        <td><%=User.address %></td>
         <td>
-          <form action="/userslist/<%= User._id %>?_method=DELETE" method="POST" style="display: inline">
-      <button  class="ui red basic button">
-        Delete
+          <form action="/docs/<%= User._id %>/<%= Doc._id %>" method="POST" style="display: inline">
+      <button  class="ui violet basic button">
+        Add
       </button>
     </form>
   </td>
@@ -48,7 +45,7 @@
    </table>
 
   <div class="ui center aligned container">
-    <button class="ui teal basic button"><a href="/adminlanding">Back</a></button>
+    <button class="ui teal basic button"><a href="/docs/<%=Doc._id%>">Back</a></button>
 </div>
 
 <% include partials/footer %>

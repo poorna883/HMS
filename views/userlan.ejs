@@ -1,22 +1,28 @@
 <% include ./partials/header %>
+<div class="ui clearing segment">
+  <h3 class="ui right floated header"><a href="/logout/user">Logout</a></h3>
+	<h3 class="ui left floated header"><a href="/"><i class="medkit icon"></i>HMS</a></h3>
+</div>
+
+
 <div class="ui container" style="width: 35%">
 	  <div class="ui placeholder segment container" style="margin: 8em">
         <div class="column">
           <div class="ui form">
             <div class="middle aligned column" style="margin-left: 3em">
-              <div class="ui big basic button"><a href="/">Doctor</a> 
+              <div class="ui big basic button"><a href="/users/docs">Doctor</a> 
               </div>
-              <div class="ui big basic button" style="margin-top: 2em"><a href="/">Diagnosis</a>
+              <div class="ui big basic button" style="margin-top: 2em"><a href="/users/diags">Diagnosis</a>
 			</div> 
-			<div class="ui big basic button" style="margin-top: 2em"><a href="/">Medicines Purchase</a> 
+			<div class="ui big basic button" style="margin-top: 2em"><a href="/purchase">Medicines Purchase</a> 
+              </div>
+				  <div class="ui big basic button" style="margin-top: 2em"><a href="/cart">Cart</a> 
               </div>
             </div>
-			  <div class="ui big basic button" style="margin-top: 2em"><a href="/">Cart</a> 
-              </div>
+			
           </div>
         </div>
 		  
       </div>
-		<a href="/logout/user" classic="ui big basic olive button">Logout</a>
     </div>
 <% include ./partials/footer %>

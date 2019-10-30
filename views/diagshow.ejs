@@ -1,0 +1,42 @@
+<% include ./partials/header %>
+<div class="ui main text container segment" style= "margin-top:6em">
+	 <div class="ui huge header center"><%= Diag.name %> Details</div>
+	<div class="ui top attached item">
+		<div class="item center aligned">
+			<div>
+				<label>Name: </label>
+				<%= Diag.name%>
+			</div>
+			<div>
+				<label>Date</label>
+				<%= Diag.date%>
+			</div>
+			<div>
+				<label>Details: </label>
+				<%= Diag.details%>
+			</div>
+			<div>
+				<label>Remark: </label>
+				<%= Diag.remark%>
+			</div>
+			
+			<div>
+				<label>Other Details :</label>
+				<p><%= Diag.other %></p>
+			</div>
+		</div>
+	</div>
+	<div class="ui center aligned container">
+		<form id="delete" action="/diags/<%= Diag._id %>?_method=DELETE"method="POST">
+				<a class="ui basic orange button" href="/diags/<%= Diag._id %>/edit">Edit</a>
+				<button class="ui red basic button">
+					Delete
+				</button>
+		</form>
+	</div>
+	<a class="ui basic teal button" href="/diags">Back</a>
+	<a class="ui basic orange button" href="/diags/<%= Diag._id %>/addp">Add Patients</a>
+	<a class="ui basic teal button" href="/diags/<%= Diag._id %>/p">Consulting Patients</a>
+</div>
+
+<% include ./partials/footer %>

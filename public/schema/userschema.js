@@ -14,6 +14,19 @@ var UserSchema=new mongoose.Schema({
 			ref:"Medicine"
 		}
 	],
+	docs:[
+		{
+			type:mongoose.Schema.Types.ObjectId,
+			ref:"Doc"
+		}
+	],
+	diags:[
+		{
+			type:mongoose.Schema.Types.ObjectId,
+			ref:"Diag"
+		}
+	],
+
 
 
 });

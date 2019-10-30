@@ -1,10 +1,9 @@
 <% include partials/header %>
-<% var sum = 0 %>
 
 <div class="ui container" style= "margin-top:6em">
 	<div class="text-center">
    <div class="page-header">
-    <h1>CART Details</h1>
+    <h1>Doctors Consulting</h1>
   </div>
    </div>
 
@@ -13,22 +12,24 @@
 <table class="ui red celled table">
   <thead >
       	<tr>
-          <th >Medicine Name    </th>
-          <th>Price</th>
+          <th >Doctor Name</th>
+          <th>Department</th>
 		<th></th>
         </tr>
       </thead>
       <tbody>
         <tr>
-      	<%  user.medicines.forEach(function(Medicine){ %>
-        <% console.log(Medicine) %>
+      	<%  user.docs.forEach(function(Doc){ %>
+        <% console.log(Doc) %>
         </tr>
         <tr>
-        <td><%= Medicine.name %></td>
-		<td><%= Medicine.price %></td>
-		<% sum = sum + Medicine.price %>
+        <td><%= Doc.name %></td>
+		<td><%= Doc.department %></td>
 		<td class = "center aligned">
-			<form action="/cart/<%= Medicine._id %>?_method=DELETE" method="POST" style="display: inline">
+			<a class="ui orange basic button" href="/users/<%= Doc._id %>">Show</a>
+		</td> 
+		<td class = "center aligned">
+			<form action="/users/<%= Doc._id %>/docs?_method=DELETE" method="POST" style="display: inline">
 				<button  class="ui red basic button">Delete</button>
 			</form>
 		</td> 
@@ -41,9 +42,7 @@
 
 	<div class="ui center aligned container">
 		<button class="ui teal basic button"><a href="/landing/user">Back</a></button>
-		<p>
-			Total Amount = <%= sum %>
-		</p>
+
 	</div>
   
 </div>
