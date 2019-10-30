@@ -1,0 +1,55 @@
+<% include partials/header%>
+<div class="ui inverted container">
+	
+<div class="ui form" style="margin-top:80px;">
+	<h4 class="ui center aligned dividing huge header">SIGN UP</h4>
+<div class="field">
+
+<div style="width:30% ;margin:25px auto">
+<form action="/register/doc" method="POST">
+	
+<div class="field"><input  type="text"
+name="username" id="username" placeholder="Username" required></div>
+<div class="field"><input  type="password"
+name="password" id="password" placeholder="Password" required></div>
+<div class="field"><input  type="text"
+name="name" id="name" placeholder="FullName" required>
+		</div>
+	
+<div class="field">
+    <div class="fields">
+      <div class="twelve wide field">
+      <input type="text" id="age" name="age" placeholder="Age" pattern="[0-9]{2}" title="please enter valid age" required>
+    </div>
+      <select  class="ui fluid dropdown" id="inputState"  name="gender" >
+      	<option class="default text">Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+      </select>
+    </div>
+
+ <div class="field">
+    <input type="text" name="dep"  id="dep" placeholder="Department" required>
+ </div>
+ <div class="field">
+    <input type="text" name="exp"  id="exp" placeholder="Experience" required>
+ </div>
+<div class="field">
+    <input type="text" name="address"  id="inputAddress" placeholder="Address" required>
+  </div>
+
+<div class="field">
+    <input type="text" name="phone" id="phno" pattern="[0-9]{10}" placeholder="Phone Number" title="please enter a valid number" required>
+  </div>
+	
+	<div class="ui center aligned container">
+		<div class="field"><button class="ui green basic button ">Create</button></div> </div>
+	</div>
+<a href="/"> <label>Already an user?</label> <strong>Login Here!</strong></a>
+	
+	</form>
+	</div>
+	</div>
+	</div>
+</div>
+<% include partials/footer%>

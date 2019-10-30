@@ -1,0 +1,52 @@
+<% include ./partials/header %>
+<div class="ui main text container segment" style= "margin-top:6em">
+	 <div class="ui huge header center"><%= Doc.name %> Details</div>
+	<div class="ui top attached item">
+		<div class="item center aligned">
+			<div>
+				<label>Name: </label>
+				<%= Doc.name%>
+			</div>
+			<div>
+				<label>Age: </label>
+				<%= Doc.age%>
+			</div>
+			<div>
+				<label>Gender: </label>
+				<%= Doc.gender%>
+			</div>
+			<div>
+				<label>Experience: </label>
+				<%= Doc.experience%>
+			</div>
+			<div>
+				<label>Department: </label>
+				<%= Doc.department%>
+			</div>
+			
+			<div>
+				<label>About: </label>
+				<p><%= Doc.about %></p>
+			</div>
+		
+			
+		
+	
+		
+		</div>
+		
+	</div>
+	<div class="ui center aligned container">
+		
+			<form id="delete" action="/docs/<%= Doc._id %>?_method=DELETE"method="POST">
+				<a class="ui basic orange button" href="/docs/<%= Doc._id %>/edit">Edit</a>
+				<button class="ui red basic button">
+					Delete
+				</button>
+			</form>
+	</div>
+	<a class="ui basic teal button" href="/docs">Back</a>
+	
+</div>
+
+<% include ./partials/footer %>

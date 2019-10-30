@@ -1,0 +1,66 @@
+<% include partials/header %>
+
+
+<div class="ui container" style= "margin-top:6em">
+	<div class="text-center">
+   <div class="page-header">
+    <h1>Medicine Details</h1>
+  </div>
+   </div>
+
+	
+	
+<table class="ui red celled table">
+  <thead >
+      	<tr>
+          <th >Medicine Name    </th>
+          <th>Batch no. </th>
+          <th>Manufacture Date</th>
+          <th>Expiry Date</th>
+          <th>Price</th>
+			<th></th>
+			<th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+      	<%  medicines.forEach(function(Medicine){ %>
+          
+        </tr>
+        <tr>
+        <td><%= Medicine.name %></td>
+        <td><%=Medicine.batchno %></td>
+        <td><%=Medicine.mfd %></td>
+        <td><%=Medicine.exp %></td>
+        <td><%=Medicine.price %></td>
+        <td class = "center aligned">
+			<a class="ui basic orange button"href="/medicines/<%= Medicine._id %>/edit">Edit</a></td>
+		<td class = "center aligned">
+				<form action="/medicines/<%= Medicine._id %>?_method=DELETE" method="POST" style="display: inline">
+			<button  class="ui red basic button">
+				Delete
+			</button>
+		</form>
+			
+			</td> 
+     	 <% }) %>    
+      
+       
+	</tr>
+   </tbody>
+   </table>
+
+	<div class="ui center aligned container">
+		<button class="ui teal basic button"><a href="/adminlanding">Back</a></button>
+   		<button class="ui olive basic button"><a href="/medicines/new">Add</a></button>
+
+	</div>
+  
+  
+
+   
+
+
+</div>
+
+<% include partials/footer %>

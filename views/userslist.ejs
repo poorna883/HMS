@@ -1,0 +1,60 @@
+<% include partials/header %>
+<div class="ui fixed inverted menu">
+ <div class="ui  container">
+        <div class="header item">
+          <div class="ui huge header"></div><a href="/"><i class="medkit icon"></i>HMS</a></div>
+        </div>
+      </div>
+      
+
+
+<div class="ui container" style="margin-top: 6em">
+	<div class="text-center">
+	  <div class="page-header">
+    <h1>User Details</h1>
+  </div>
+	 </div>
+
+	
+  
+	
+<table class="ui blue celled table">
+  <thead>
+      	<tr>
+          <th>Username    </th>
+          <th>Name  </th>
+          <th>Age</th>
+          <th>Gender</th>
+          <th>Phone No.</th>
+          <th>Address</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+      	<%  user.forEach(function(User){ %>
+          
+        </tr>
+        <tr>
+        <td><%= User.username %></td>
+        <td><%=User.name %></td>
+        <td><%=User.age %></td>
+        <td><%=User.gender %></td>
+        <td><%=User.phone %></td>
+        <td><%=User.address %></td>
+        <td>
+          <form action="/userslist/<%= User._id %>?_method=DELETE" method="POST" style="display: inline">
+      <button  class="ui red basic button">
+        Delete
+      </button>
+    </form>
+  </td>
+     	<% }) %>          
+     </tr>
+   </tbody>
+   </table>
+
+  <div class="ui center aligned container">
+    <button class="ui teal basic button"><a href="/adminlanding">Back</a></button>
+</div>
+
+<% include partials/footer %>
